@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="nl">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>HBO-I KPI’s</title>
+		<link rel="stylesheet" href="/css/style.css" />
+		<script async src="/js/script.js"></script>
+	</head>
+
+	<body>
+		<main>
+			<nav>
+				<div class="logo d-flex justify-content-between">
+					<img src="/img/logo-light.svg" alt="" />
+					<img
+						class="pointer d-block d-md-none"
+						src="./img/connect.svg"
+						alt=""
+					/>
+				</div>
+				<div class="filters d-none d-md-flex align-items-center flex-wrap">
+					<button class="btn all">Alle</button>
+					<button class="btn orange">Gebruikersinteractie</button>
+					<button class="btn green">Organisatieprocessen</button>
+					<button class="btn transparent-btn">Infrastructuur</button>
+					<button class="btn transparent-btn">Software</button>
+					<button class="btn transparent-btn">Hardware interfacing</button>
+					<a href="">
+						<img src="./img/connect.svg" alt="" />
+					</a>
+				</div>
+
+				<div class="mobile-filters d-flex d-md-none mt-4">
+					<div>
+						<button>Alle</button>
+					</div>
+					<div>
+						<button>
+							<img src="./img/mobileFilter/i1.svg" alt="" />
+						</button>
+					</div>
+					<div>
+						<button>
+							<img src="./img/mobileFilter/i2.svg" alt="" />
+						</button>
+					</div>
+					<div>
+						<button>
+							<img src="./img/mobileFilter/i3.svg" alt="" />
+						</button>
+					</div>
+					<div>
+						<button>
+							<img src="./img/mobileFilter/i4.svg" alt="" />
+						</button>
+					</div>
+					<div>
+						<button>
+							<img src="./img/mobileFilter/i5.svg" alt="" />
+						</button>
+					</div>
+				</div>
+			</nav>
+
+			<form class="search-form" action="" onsubmit="return false">
+				<input
+					autocomplete="on"
+					autofocus
+					placeholder="Zoek KPI"
+					name="keyword"
+				/>
+				<div class="search-btn">
+					<button
+						aria-label="Search KPI's"
+						id="btn-search-icon"
+						class="search-icon"
+					>
+						<img src="/img/search-icon-light.svg" alt="icon search" />
+					</button>
+				</div>
+			</form>
+
+			<div
+				class="
+					container
+					d-flex
+					align-items-center
+					w-100
+					justify-content-between
+				"
+			>
+				<button
+					onclick="exportTableToExcel('tblData', 'members-data')"
+					class="green-btn pointer"
+				>
+					Opslaan als (.xls)
+				</button>
+				<div class="d-flex gap">
+					<img id="activeSort1" class="pointer" src="./img/sort1.svg" alt="" />
+					<img
+						id="nonActiveSort1"
+						class="pointer"
+						src="./img/sort1O.svg"
+						alt=""
+					/>
+					<img
+						id="activeSort2"
+						class="pointer ms-1"
+						src="./img/sort2A.svg"
+						alt=""
+					/>
+					<img
+						id="nonActiveSort2"
+						class="pointer ms-1"
+						src="./img/sort2.svg"
+						alt=""
+					/>
+				</div>
+			</div>
+
+			<div class="grid-n-list-container">
+				<!-- GRID -->
+				<div class="grid-cards"></div>
+
+				<!-- LIST -->
+				<div class="list-cards"></div>
+			</div>
+
+			<!-- TABLE TO EXPORT START -->
+			<table id="tblData"></table>
+			<!-- TABLE TO EXPORT END -->
+		</main>
+	</body>
+</html>

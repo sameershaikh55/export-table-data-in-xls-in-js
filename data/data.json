@@ -1,0 +1,64 @@
+{
+	"cards": [
+		{
+			"architectuurlaag": "Infrastructuur",
+			"activiteiten": "Analyseren",
+			"beheersingsniveaus": "1.1",
+			"beschrijving": "Identificeren van de kernelementen van een externe opdracht waarbij verduidelijking wordt gezocht bij opdrachtgever, gebruikers en deskundigen."
+		},
+		{
+			"architectuurlaag": "Gebruikersinteractie",
+			"activiteiten": "Analyseren",
+			"beheersingsniveaus": "1.2",
+			"beschrijving": "Inventariseren van klant- en gebruikersbehoeften en deze vertalen naar IT-oplossingen."
+		},
+		{
+			"architectuurlaag": "Gebruikersinteractie",
+			"activiteiten": "Analyseren",
+			"beheersingsniveaus": "1.3",
+			"beschrijving": "Oriënteren op bestaande interactieve concepten, diensten en producten."
+		},
+		{
+			"architectuurlaag": "Software",
+			"activiteiten": "Adviseren",
+			"beheersingsniveaus": "1.1",
+			"beschrijving": "Adviseren over interactieontwerp passend bij opdracht, klant en gebruikersbehoeften en voorafgaande oriëntatie."
+		},
+		{
+			"architectuurlaag": "Gebruikersinteractie",
+			"activiteiten": "Adviseren",
+			"beheersingsniveaus": "1.2",
+			"beschrijving": "Aanbevelingen doen op basis van een gegeven usability-analyse voor het ontwerp van een interactief product, systeem of dienst."
+		},
+		{
+			"architectuurlaag": "Organisatieprocessen",
+			"activiteiten": "Ontwerpen",
+			"beheersingsniveaus": "1.1",
+			"beschrijving": "Vertalen van adviezen in een eenvoudige gebruikersinteractie met een standaard prototypingtechniek."
+		},
+		{
+			"architectuurlaag": "Gebruikersinteractie",
+			"activiteiten": "Ontwerpen",
+			"beheersingsniveaus": "1.2",
+			"beschrijving": "Ontwerpen van een (usability)test waarmee essentiële interactieproblemen geïdentificeerd kunnen worden."
+		},
+		{
+			"architectuurlaag": "Gebruikersinteractie",
+			"activiteiten": "Ontwerpen",
+			"beheersingsniveaus": "1.3",
+			"beschrijving": "Toepassen en uitvoeren van een gebruikelijk interactieontwerpproces, zoals user centered design."
+		},
+		{
+			"architectuurlaag": "Hardware interfacing",
+			"activiteiten": "Realiseren",
+			"beheersingsniveaus": "1.1",
+			"beschrijving": "Realiseren en kwalitatief testen van eenvoudige interactieve producten of diensten op basis van een interactieontwerp waarbij gebruik wordt gemaakt van gangbare tools, design guidelines en/of huisstijl."
+		},
+		{
+			"architectuurlaag": "Gebruikersinteractie",
+			"activiteiten": "Manage & control",
+			"beheersingsniveaus": "1.1",
+			"beschrijving": "Vastleggen van de belangrijkste beslissingen, resultaten en inzichten m.b.t. interactieontwerp in een iteratief proces."
+		}
+	]
+}
