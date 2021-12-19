@@ -39,6 +39,7 @@ let filterBtn =
 		.join("");
 
 document.querySelector(".filters").insertAdjacentHTML("afterbegin", filterBtn);
+// FILTER BUTTONS END
 
 // Fetch Data.json
 function fetchData() {
@@ -63,9 +64,46 @@ function fetchData() {
 			var activeSort2 = document.getElementById("activeSort2");
 			var nonActiveSort2 = document.getElementById("nonActiveSort2");
 
+			// POP-UPS
+			var previewBtn = document.querySelector(".preview-btn");
+			var popUpContainer = document.querySelector(".pop-up-container");
+			var popupClose = document.querySelector(".popup-close");
+			var popUpInnerBody = document.querySelector(".pop-up-inner-body-inner");
+
 			// FETCHED DATA
 			var filteredData;
 			let gettingData = data.cards;
+
+			// PREVIEW SECTION START
+			function popUpDataTable() {
+				let popupTable = storingData
+					.map((item, i) => {
+						return `
+						<div class="pop-list-data-card">
+							<div class="top-data">
+								<span>${item.architectuurlaag}</span>
+								<span class="left-border">${item.activiteiten}</span>
+								<span>${item.beheersingsniveaus}</span>
+							</div>
+							<div>${item.beschrijving}</div>
+							${(storingData.length !== i + 1 && "<br /> <hr /> <br />") || ""}
+						<div>
+					`;
+					})
+					.join("");
+
+				popUpInnerBody.innerHTML = popupTable;
+			}
+
+			previewBtn.addEventListener("click", () => {
+				popUpContainer.classList.remove("d-none-popup");
+				popUpDataTable();
+			});
+
+			popupClose.addEventListener("click", () => {
+				popUpContainer.classList.add("d-none-popup");
+			});
+			// PREVIEW SECTION END
 
 			// RANDOM SORTINGS FOR PAGE LOAD
 			gettingData.sort((a, b) => Math.random() - 0.5);
@@ -112,6 +150,12 @@ function fetchData() {
 					`;
 				}
 				document.querySelector("#tblData").innerHTML = sendingStoredData;
+
+				if (storingData.length) {
+					previewBtn.classList.remove("d-none-popup");
+				} else {
+					previewBtn.classList.add("d-none-popup");
+				}
 			}
 
 			// INDEXES
@@ -144,6 +188,18 @@ function fetchData() {
 				document.getElementById("added-" + id).style.display = "none";
 				document.getElementById("add2-" + id).style.display = "block";
 				document.getElementById("added2-" + id).style.display = "none";
+			}
+
+			// GET MATCH
+			function getMatch(a, b) {
+				var matches = [];
+
+				for (var i = 0; i < a.length; i++) {
+					for (var e = 0; e < b.length; e++) {
+						if (a[i] === b[e]) matches.push(a[i]);
+					}
+				}
+				return matches;
 			}
 
 			// REMOVE STYLINGS
@@ -200,8 +256,11 @@ function fetchData() {
 				listCards.innerHTML = "";
 				appendingData(filteredData);
 
-				for (var i = 0; i < storedIndex.length; i++) {
-					addStylings(storedIndex[i]);
+				let filterDataIndexes = filteredData.map((item) => item.id);
+				let matchIds = getMatch(storedIndex, filterDataIndexes);
+
+				for (var i = 0; i < matchIds.length; i++) {
+					addStylings(matchIds[i]);
 				}
 			}
 
@@ -321,6 +380,7 @@ function fetchData() {
 
 						// ADD STYLINGS
 						addStylings(getID);
+						console.log(storedIndex);
 					};
 				}
 

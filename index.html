@@ -10,6 +10,24 @@
 	</head>
 
 	<body>
+		<!-- PREVIEW MODAL START -->
+		<div class="pop-up-container d-none-popup">
+			<div class="inner-pop-up">
+				<div class="pop-up-header d-flex justify-content-between">
+					<p class="color1">Jouw KPI's</p>
+					<img class="pointer popup-close" src="./img/cross.svg" alt="" />
+				</div>
+
+				<div class="pop-up-body">
+					<div class="pop-up-inner-body">
+						<div class="pop-up-inner-body-inner"></div>
+						<div class="pop-up-second"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- PREVIEW MODAL END -->
+
 		<main>
 			<nav>
 				<div class="logo d-flex justify-content-between">
@@ -25,37 +43,6 @@
 						<img src="./img/connect.svg" alt="" />
 					</a>
 				</div>
-
-				<!-- <div class="mobile-filters d-flex d-md-none mt-4">
-					<div>
-						<button>Alle</button>
-					</div>
-					<div>
-						<button>
-							<img src="./img/mobileFilter/i1.svg" alt="" />
-						</button>
-					</div>
-					<div>
-						<button>
-							<img src="./img/mobileFilter/i2.svg" alt="" />
-						</button>
-					</div>
-					<div>
-						<button>
-							<img src="./img/mobileFilter/i3.svg" alt="" />
-						</button>
-					</div>
-					<div>
-						<button>
-							<img src="./img/mobileFilter/i4.svg" alt="" />
-						</button>
-					</div>
-					<div>
-						<button>
-							<img src="./img/mobileFilter/i5.svg" alt="" />
-						</button>
-					</div>
-				</div> -->
 			</nav>
 
 			<form class="search-form" action="" onsubmit="return false">
@@ -85,12 +72,15 @@
 					justify-content-between
 				"
 			>
-				<button
-					onclick="exportTableToExcel('tblData', 'members-data')"
-					class="green-btn pointer"
-				>
-					Opslaan als (.xls)
-				</button>
+				<div>
+					<button
+						onclick="exportTableToExcel('tblData', 'members-data')"
+						class="green-btn pointer"
+					>
+						Opslaan als (.xls)
+					</button>
+					<button class="preview-btn d-none-popup">Preview</button>
+				</div>
 				<div class="d-flex gap">
 					<img id="activeSort1" class="pointer" src="./img/sort1.svg" alt="" />
 					<img

@@ -78,6 +78,61 @@ nav {
 	align-items: center;
 }
 
+.pop-up-inner-body .pop-up-inner-body-inner {
+	max-height: 410px;
+	overflow: auto;
+	padding-right: 0.6rem;
+}
+
+.pop-up-inner-body .pop-up-inner-body-inner::-webkit-scrollbar {
+	margin-right: 1rem;
+	height: 8px;
+	width: 12px;
+	border-radius: 20px;
+	border-left: 20px solid #d8d8d8;
+	border-right: 20px solid #d8d8d8;
+}
+.pop-up-inner-body .pop-up-inner-body-inner::-webkit-scrollbar-track {
+	background: #d8d8d8;
+	border-left: 20px solid #d8d8d8;
+	border-right: 20px solid #d8d8d8;
+	border-radius: 20px;
+	width: 3px;
+}
+.pop-up-inner-body .pop-up-inner-body-inner::-webkit-scrollbar-thumb {
+	background: #a6a9af;
+	border: 2px solid #d8d8d8;
+	border-radius: 20px;
+	width: 1px;
+}
+
+.pop-list-data-card .top-data {
+	margin-bottom: 0.4rem;
+}
+
+.pop-list-data-card .top-data .left-border {
+	border-left: 2px solid #070915;
+	padding-left: 0.3rem;
+}
+
+.pop-list-data-card .top-data span {
+	font-weight: 600;
+}
+
+.preview-btn.d-none-popup {
+	display: none;
+}
+
+.preview-btn {
+	height: 100%;
+	background-color: #f4f0ec;
+	border: none;
+	padding: 0.4rem 0.8rem;
+	border-radius: 6px;
+	margin-left: 0.4rem;
+	cursor: pointer;
+}
+
 #ap-close-icon {
 	position: relative;
 	height: 28px;
@@ -344,6 +399,64 @@ main {
 	margin-right: 10px;
 	border-radius: 25px;
 }
+
+/* POP-UP START */
+.pop-up-container.d-none-popup {
+	display: none;
+}
+
+.pop-up-container {
+	transition: 0.6s;
+	position: fixed;
+	left: 0%;
+	right: 0%;
+	bottom: 0%;
+	top: 0%;
+	width: 100%;
+	height: 100vh;
+	background-color: #1f1d59d5;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 10;
+}
+
+.pop-up-container .inner-pop-up {
+	background-color: #fff;
+	min-width: 500px;
+	max-width: 500px;
+	border-radius: 10px !important;
+}
+
+.pop-up-container .pop-up-body {
+	padding: 1.2rem;
+	display: flex;
+}
+
+.pop-up-container .pop-up-second {
+	padding: 0rem 1rem;
+}
+
+.pop-up-container .pop-up-body .pop-up-inner-body {
+	border: 1px solid #07091580;
+	border-radius: 6px;
+	padding: 0.8rem;
+	padding-right: 0.6rem;
+}
+
+.pop-up-container .pop-up-header {
+	background-color: #ffce60;
+	padding: 1rem !important;
+	border-top-left-radius: 10px !important;
+	border-top-right-radius: 10px !important;
+}
+
+.pop-up-container .pop-up-header p {
+	font-size: 20px;
+	color: #282a35;
+	font-weight: 600;
+}
+/* POP-UP END */
 
 .show {
 	display: block;
