@@ -1,5 +1,24 @@
 var storingData = [];
 var storedIndex = [];
+var activeFilters = [];
+var filterbtns = [
+	"Alle",
+	"Gebruikersinteractie",
+	"Organisatieprocessen",
+	"Infrastructuur",
+	"Software",
+	"Hardware interfacing",
+];
+
+// FILTER BUTTONS
+let filterBtn = filterbtns
+	.map((item) => {
+		return `<button class="btn ${
+			(item === "Alle" && "all") || ""
+		}">${item}</button>`;
+	})
+	.join("");
+document.querySelector(".filters").insertAdjacentHTML("afterbegin", filterBtn);
 
 // Fetch Data.json
 function fetchData() {
@@ -27,6 +46,9 @@ function fetchData() {
 			// FETCHED DATA
 			var filteredData;
 			let gettingData = data.cards;
+
+			// Listen to input and option changes
+			keywordInput.addEventListener("input", handleChange);
 
 			nonActiveSort1.addEventListener("click", () => {
 				gridCards.style.display = "flex";
@@ -76,16 +98,16 @@ function fetchData() {
 			}
 
 			// ADD STYLINGS
-			function addStylings(index) {
-				document.getElementById("add" + index).style.display = "none";
-				document.getElementById("added" + index).style.display = "block";
-				document.getElementById("add2" + index).style.display = "none";
-				document.getElementById("added2" + index).style.display = "block";
+			function addStylings(id) {
+				document.getElementById("add-" + id).style.display = "none";
+				document.getElementById("added-" + id).style.display = "block";
+				document.getElementById("add2-" + id).style.display = "none";
+				document.getElementById("added2-" + id).style.display = "block";
 			}
 
 			// REMOVING INDEXES
 			function removingIndexes(gridIndex) {
-				for (var i = 0; i < [storedIndex].length; i++) {
+				for (var i = 0; i < storedIndex.length; i++) {
 					if (storedIndex[i] === gridIndex) {
 						storedIndex.splice(i, 1);
 					}
@@ -93,11 +115,70 @@ function fetchData() {
 			}
 
 			// REMOVE STYLINGS
-			function removeStylings(index) {
-				document.getElementById("add" + index).style.display = "block";
-				document.getElementById("added" + index).style.display = "none";
-				document.getElementById("add2" + index).style.display = "block";
-				document.getElementById("added2" + index).style.display = "none";
+			function removeStylings(id) {
+				document.getElementById("add-" + id).style.display = "block";
+				document.getElementById("added-" + id).style.display = "none";
+				document.getElementById("add2-" + id).style.display = "block";
+				document.getElementById("added2-" + id).style.display = "none";
+			}
+
+			// REMOVE STYLINGS
+			function filterFunction(method, keyword) {
+				if (method === "input" && activeFilters.length === 0) {
+					// FILTER METHOD TO SORT
+					filteredData = gettingData.filter((item) => {
+						return (
+							item.architectuurlaag
+								.toLowerCase()
+								.includes(keyword.toLowerCase()) ||
+							item.activiteiten.toLowerCase().includes(keyword.toLowerCase()) ||
+							""
+						);
+					});
+				} else if (method === "input" && activeFilters.length !== 0) {
+					// // FILTER METHOD TO SORT
+					filteredData = gettingData.filter((item) => {
+						let filterEntries = activeFilters.filter((item2) => {
+							return (
+								item.architectuurlaag
+									.toLowerCase()
+									.includes(item2.toLowerCase()) || ""
+							);
+						});
+
+						let filteredData =
+							(item.architectuurlaag === filterEntries[0] &&
+								item.activiteiten
+									.toLowerCase()
+									.includes(keyword.toLowerCase())) ||
+							"";
+
+						return filteredData;
+					});
+				} else {
+					if (keyword.length && keyword[0] !== "Alle") {
+						filteredData = gettingData.filter((item) => {
+							let filterEntries = keyword.filter((item2) => {
+								return (
+									item.architectuurlaag
+										.toLowerCase()
+										.includes(item2.toLowerCase()) || ""
+								);
+							});
+							return item.architectuurlaag === filterEntries[0];
+						});
+					} else {
+						filteredData = [...gettingData];
+					}
+				}
+
+				gridCards.innerHTML = "";
+				listCards.innerHTML = "";
+				appendingData(filteredData);
+
+				for (var i = 0; i < storedIndex.length; i++) {
+					addStylings(storedIndex[i]);
+				}
 			}
 
 			function appendingData(data) {
@@ -105,7 +186,7 @@ function fetchData() {
 				let listData = "";
 
 				for (let i = 0; i < data.length; i++) {
-					gridData += `<div id="card" class="card">
+					gridData += `<div id="${data[i].id}" class="card">
 											 <div class="inner-card">
 													 <div class="d-flex w-100 justify-content-between align-items-center flex-wrap">
 															 <p class=${
@@ -124,8 +205,12 @@ function fetchData() {
 																		"Infrastructuur" &&
 																		"architectuurlaag-icon-purple")
 																}>${data[i].architectuurlaag}</p>
-															 <img id="add${i}" class="pointer addBtn" src="../img/add.svg" alt="" />
-															 <img id="added${i}" class="pointer addedBtn" src="../img/added.svg" alt="" />
+															 <img id="add-${
+																	data[i].id
+																}" class="pointer addBtn" src="../img/add.svg" alt="" />
+															 <img id="added-${
+																	data[i].id
+																}" class="pointer addedBtn" src="../img/added.svg" alt="" />
 													</div>
 													 <h3 class="architectuurlaag-heading">${
 															data[i].activiteiten
@@ -138,7 +223,7 @@ function fetchData() {
 				}
 
 				for (let i = 0; i < data.length; i++) {
-					listData += `<div id="list-card" class="list-card">
+					listData += `<div id="${data[i].id}" class="list-card">
 											<div class="inner-card-mobile d-flex align-items-center">
 												<div class="first d-flex align-items-center">
 													<p class="architectuurlaag-icon">${data[i].architectuurlaag}</p>
@@ -146,8 +231,8 @@ function fetchData() {
 												</div>
 												<div class="second d-flex align-items-center">
 													<p class="architectuurlaag-paragraaf">${data[i].beschrijving}</p>
-													<img id="add2${i}" class="pointer addBtn" src="../img/add.svg" alt="" />
-													<img id="added2${i}" class="pointer addedBtn" src="../img/added.svg" alt="" />
+													<img id="add2-${data[i].id}" class="pointer addBtn" src="../img/add.svg" alt="" />
+													<img id="added2-${data[i].id}" class="pointer addedBtn" src="../img/added.svg" alt="" />
 												</div>
 											</div>
 										</div>`;
@@ -180,30 +265,32 @@ function fetchData() {
 				for (var i = 0; i < addBtnGrid.length; i++) {
 					addBtnGrid[i].onclick = function () {
 						gridIndex = gridAddCard.indexOf(this.getAttribute("id"));
+						let getID = gridAddCard[gridIndex].split("-")[1];
 
 						// INDEXES
-						storingIndexes(gridIndex);
+						storingIndexes(getID);
 
 						// EXPORT DATA LISTING
 						makingTableToExport();
 
 						// ADD STYLINGS
-						addStylings(gridIndex);
+						addStylings(getID);
 					};
 				}
 
 				for (var i = 0; i < addBtnList.length; i++) {
 					addBtnList[i].onclick = function () {
 						listIndex = listAddCard.indexOf(this.getAttribute("id"));
+						let getID = listAddCard[listIndex].split("-")[1];
 
 						// INDEXES
-						storingIndexes(listIndex);
+						storingIndexes(getID);
 
 						// EXPORT DATA LISTING
 						makingTableToExport();
 
 						// ADD STYLINGS
-						addStylings(listIndex);
+						addStylings(getID);
 					};
 				}
 
@@ -225,30 +312,32 @@ function fetchData() {
 				for (var i = 0; i < addedBtnGrid.length; i++) {
 					addedBtnGrid[i].onclick = function () {
 						gridIndexRemove = gridRemoveCard.indexOf(this.getAttribute("id"));
+						let getID = gridRemoveCard[gridIndexRemove].split("-")[1];
 
 						// // INDEXES
-						removingIndexes(gridIndexRemove);
+						removingIndexes(getID);
 
 						// // EXPORT DATA LISTING
 						makingTableToExport();
 
 						// REMOVING STYLINGS
-						removeStylings(gridIndexRemove);
+						removeStylings(getID);
 					};
 				}
 
 				for (var i = 0; i < addedBtnList.length; i++) {
 					addedBtnList[i].onclick = function () {
 						listIndexRemove = listRemoveCard.indexOf(this.getAttribute("id"));
+						let getID = listRemoveCard[listIndexRemove].split("-")[1];
 
 						// // INDEXES
-						removingIndexes(listIndexRemove);
+						removingIndexes(getID);
 
 						// // EXPORT DATA LISTING
 						makingTableToExport();
 
 						// REMOVING STYLINGS
-						removeStylings(listIndexRemove);
+						removeStylings(getID);
 					};
 				}
 			}
@@ -258,28 +347,71 @@ function fetchData() {
 				// Read the keyword
 				var keyword = keywordInput.value;
 
-				// FILTER METHOD TO SORT
-				filteredData = gettingData.filter((item) => {
-					return (
-						item.architectuurlaag
-							.toLowerCase()
-							.includes(keyword.toLowerCase()) ||
-						item.activiteiten.toLowerCase().includes(keyword.toLowerCase()) ||
-						""
-					);
-				});
-
-				gridCards.innerHTML = "";
-				listCards.innerHTML = "";
-				appendingData(filteredData);
-
-				for (var i = 0; i < storedIndex.length; i++) {
-					addStylings(storedIndex[i]);
-				}
+				filterFunction("input", keyword);
 			}
 
 			// Listen to input and option changes
 			keywordInput.addEventListener("input", handleChange);
+
+			// FILTER BUTTONS
+			var filterBtnSelector = document.querySelectorAll(".filters button"),
+				filterBtnsList = filterbtns,
+				activeBtnindexex = [],
+				classesToMakeActive = [
+					"all",
+					"orange",
+					"green",
+					"purple",
+					"blue",
+					"yellow",
+				];
+
+			// FILTER LOOP
+			for (var i = 0; i < filterBtnSelector.length; i++) {
+				filterBtnSelector[i].onclick = function () {
+					let activeFilterIndex = filterBtnsList.indexOf(this.innerHTML);
+
+					if (
+						filterBtnSelector[activeFilterIndex].classList.contains(
+							classesToMakeActive[activeFilterIndex]
+						)
+					) {
+						for (var i = 0; i < activeFilters.length; i++) {
+							if (activeFilters[i] === this.innerHTML) {
+								activeFilters.splice(i, 1);
+							}
+						}
+						filterBtnSelector[activeFilterIndex].classList.remove(
+							classesToMakeActive[activeFilterIndex]
+						);
+					} else {
+						activeFilters.push(this.innerHTML);
+						activeBtnindexex.push(activeFilterIndex);
+						filterBtnSelector[activeFilterIndex].classList.add(
+							classesToMakeActive[activeFilterIndex]
+						);
+					}
+
+					if (activeFilterIndex === 0 && this.innerHTML === filterbtns[0]) {
+						for (var i = 0; i < filterbtns.length; i++) {
+							filterBtnSelector[i].classList.remove(classesToMakeActive[i]);
+						}
+						activeFilters = [filterbtns[0]];
+						filterBtnSelector[0].classList.add(classesToMakeActive[0]);
+						gettingData.sort((a, b) => Math.random() - 0.5);
+						filteredData && filteredData.sort((a, b) => Math.random() - 0.5);
+					} else {
+						for (var i = 0; i < filterbtns.length; i++) {
+							if (activeFilters[i] === "Alle") {
+								activeFilters.splice(i, 1);
+							}
+						}
+						filterBtnSelector[0].classList.remove(classesToMakeActive[0]);
+					}
+
+					filterFunction(null, activeFilters);
+				};
+			}
 
 			// CALLING AN API ON LOAD
 			window.onload = appendingData(gettingData);

@@ -46,6 +46,11 @@
 	flex-wrap: wrap;
 }
 
+.filters button {
+	background-color: #525669;
+	color: #fff;
+}
+
 .pointer {
 	cursor: pointer;
 }
@@ -262,7 +267,7 @@ main {
 	margin-top: var(--bs-gutter-y);
 }
 
-#card {
+.card {
 	flex: 0 0 auto;
 	width: 33.3333333333%;
 }
@@ -322,7 +327,7 @@ main {
 	border-radius: 25px;
 }
 
-#list-card {
+.list-card {
 	flex: 0 0 auto;
 	width: 100%;
 }
@@ -410,27 +415,33 @@ main {
 }
 
 .all {
-	background-color: var(--btn-white);
+	background-color: var(--btn-white) !important;
+	color: #181a26 !important;
 }
 
 .orange {
-	background-color: var(--btn-pink);
+	background-color: var(--btn-pink) !important;
+	color: #181a26 !important;
 }
 
 .green {
-	background-color: var(--btn-green);
+	background-color: var(--btn-green) !important;
+	color: #181a26 !important;
 }
 
 .purple {
-	background-color: var(--btn-purple);
+	background-color: var(--btn-purple) !important;
+	color: #181a26 !important;
 }
 
 .blue {
-	background-color: var(--btn-blue);
+	background-color: var(--btn-blue) !important;
+	color: #181a26 !important;
 }
 
 .yellow {
-	background-color: var(--btn-yellow);
+	background-color: var(--btn-yellow) !important;
+	color: #181a26 !important;
 }
 
 .d-md-none {
@@ -469,7 +480,7 @@ main {
 }
 
 @media only screen and (max-width: 768px) {
-	#card {
+	.card {
 		flex: 0 0 auto;
 		width: 50%;
 	}
@@ -482,7 +493,7 @@ main {
 	.grid-n-list-container {
 		height: calc(100vh - 350px);
 	}
-	#card {
+	.card {
 		flex: 0 0 auto;
 		width: 100%;
 	}
