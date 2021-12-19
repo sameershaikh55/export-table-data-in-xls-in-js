@@ -9,15 +9,35 @@ var filterbtns = [
 	"Software",
 	"Hardware interfacing",
 ];
+var filterbtnsicons = [
+	"Alle",
+	"../img/mobileFilter/i1.svg",
+	"../img/mobileFilter/i2.svg",
+	"../img/mobileFilter/i3.svg",
+	"../img/mobileFilter/i4.svg",
+	"../img/mobileFilter/i5.svg",
+];
 
 // FILTER BUTTONS
-let filterBtn = filterbtns
-	.map((item) => {
-		return `<button class="btn ${
-			(item === "Alle" && "all") || ""
-		}">${item}</button>`;
-	})
-	.join("");
+let filterBtn =
+	(window.screen.width > 575 &&
+		filterbtns
+			.map((item) => {
+				return `<button id="${item}" class="btn ${
+					(item === "Alle" && "all") || ""
+				}">${item}</button>`;
+			})
+			.join("")) ||
+	filterbtnsicons
+		.map((item, i) => {
+			return `<div><button id="${filterbtns[i]}" class="mobile-filter-btn ${
+				(item === "Alle" && "all") || ""
+			}">
+			${(item === "Alle" && item) || `<img src="${item}" alt="" />`}
+			</button></div>`;
+		})
+		.join("");
+
 document.querySelector(".filters").insertAdjacentHTML("afterbegin", filterBtn);
 
 // Fetch Data.json
@@ -46,6 +66,10 @@ function fetchData() {
 			// FETCHED DATA
 			var filteredData;
 			let gettingData = data.cards;
+
+			// RANDOM SORTINGS FOR PAGE LOAD
+			gettingData.sort((a, b) => Math.random() - 0.5);
+			filteredData && filteredData.sort((a, b) => Math.random() - 0.5);
 
 			// Listen to input and option changes
 			keywordInput.addEventListener("input", handleChange);
@@ -226,13 +250,35 @@ function fetchData() {
 					listData += `<div id="${data[i].id}" class="list-card">
 											<div class="inner-card-mobile d-flex align-items-center">
 												<div class="first d-flex align-items-center">
-													<p class="architectuurlaag-icon">${data[i].architectuurlaag}</p>
-													<h3 class="architectuurlaag-heading">${data[i].activiteiten}<span class="kpi-nummer">${data[i].beheersingsniveaus}</span></h3>
+													<p class=${
+														(data[i].architectuurlaag ===
+															"Gebruikersinteractie" &&
+															"architectuurlaag-icon-pink") ||
+														(data[i].architectuurlaag ===
+															"Organisatieprocessen" &&
+															"architectuurlaag-icon-blue") ||
+														(data[i].architectuurlaag === "Software" &&
+															"architectuurlaag-icon-green") ||
+														(data[i].architectuurlaag ===
+															"Hardware interfacing" &&
+															"architectuurlaag-icon-yellow") ||
+														(data[i].architectuurlaag === "Infrastructuur" &&
+															"architectuurlaag-icon-purple")
+													}>${data[i].architectuurlaag}</p>
+													<h3 class="architectuurlaag-heading">${
+														data[i].activiteiten
+													}<span class="kpi-nummer">${
+						data[i].beheersingsniveaus
+					}</span></h3>
 												</div>
 												<div class="second d-flex align-items-center">
 													<p class="architectuurlaag-paragraaf">${data[i].beschrijving}</p>
-													<img id="add2-${data[i].id}" class="pointer addBtn" src="../img/add.svg" alt="" />
-													<img id="added2-${data[i].id}" class="pointer addedBtn" src="../img/added.svg" alt="" />
+													<img id="add2-${
+														data[i].id
+													}" class="pointer addBtn" src="../img/add.svg" alt="" />
+													<img id="added2-${
+														data[i].id
+													}" class="pointer addedBtn" src="../img/added.svg" alt="" />
 												</div>
 											</div>
 										</div>`;
@@ -369,7 +415,9 @@ function fetchData() {
 			// FILTER LOOP
 			for (var i = 0; i < filterBtnSelector.length; i++) {
 				filterBtnSelector[i].onclick = function () {
-					let activeFilterIndex = filterBtnsList.indexOf(this.innerHTML);
+					let activeFilterIndex = filterBtnsList.indexOf(
+						this.getAttribute("id")
+					);
 
 					if (
 						filterBtnSelector[activeFilterIndex].classList.contains(
@@ -377,7 +425,7 @@ function fetchData() {
 						)
 					) {
 						for (var i = 0; i < activeFilters.length; i++) {
-							if (activeFilters[i] === this.innerHTML) {
+							if (activeFilters[i] === this.getAttribute("id")) {
 								activeFilters.splice(i, 1);
 							}
 						}
@@ -385,21 +433,23 @@ function fetchData() {
 							classesToMakeActive[activeFilterIndex]
 						);
 					} else {
-						activeFilters.push(this.innerHTML);
+						activeFilters.push(this.getAttribute("id"));
 						activeBtnindexex.push(activeFilterIndex);
+
 						filterBtnSelector[activeFilterIndex].classList.add(
 							classesToMakeActive[activeFilterIndex]
 						);
 					}
 
-					if (activeFilterIndex === 0 && this.innerHTML === filterbtns[0]) {
+					if (
+						activeFilterIndex === 0 &&
+						this.getAttribute("id") === filterbtns[0]
+					) {
 						for (var i = 0; i < filterbtns.length; i++) {
 							filterBtnSelector[i].classList.remove(classesToMakeActive[i]);
 						}
 						activeFilters = [filterbtns[0]];
 						filterBtnSelector[0].classList.add(classesToMakeActive[0]);
-						gettingData.sort((a, b) => Math.random() - 0.5);
-						filteredData && filteredData.sort((a, b) => Math.random() - 0.5);
 					} else {
 						for (var i = 0; i < filterbtns.length; i++) {
 							if (activeFilters[i] === "Alle") {
